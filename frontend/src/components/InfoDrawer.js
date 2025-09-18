@@ -19,9 +19,19 @@ const formatLabel = (key) => {
     .replace(/^./, (str) => str.toUpperCase()); // capitalize first letter
 };
 
-function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left", onDelete }) {
+const isValidUrl = (string) => {
+  try {
+    new URL(string); // If URL is valid, this will not throw an error
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
+
+function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left", onClick }) {
   const [loading, setLoading] = useState(false);
   return (
+    <div>
     <Drawer
       anchor="left"
       open={open}
@@ -76,6 +86,7 @@ function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left
               />
             )}
 
+
             <List disablePadding>
               {Object.entries(info).map(([key, value], idx) => (
                 <Box
@@ -100,11 +111,7 @@ function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left
                     <List disablePadding>
                       {value.length > 0 ? (
                         value.map((item, i) => (
-                          <ListItem
-                            key={i}
-                            disablePadding
-                            sx={{ color: "#ffffffff", fontSize: "0.9rem", ml: 1 }}
-                          >
+                          <ListItem key={i} disablePadding sx={{ color: "#ffffffff", fontSize: "0.9rem", ml: 1 }}>
                             • {typeof item === "object" ? JSON.stringify(item) : item.toString()}
                           </ListItem>
                         ))
@@ -114,6 +121,13 @@ function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left
                         </ListItem>
                       )}
                     </List>
+                  ) : isValidUrl(value) ? (
+                    // If value is a valid URL, render it as a hyperlink
+                    <Typography sx={{ color: "#00e5ff", fontSize: "1rem", ml: 1 }}>
+                      <a target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} onClick={onClick(value)}>
+                        {value}
+                      </a>
+                    </Typography>
                   ) : (
                     <Typography sx={{ color: "#ffffffff", fontSize: "1rem", ml: 1 }}>
                       {value?.toString() || "-"}
@@ -122,30 +136,16 @@ function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left
                 </Box>
               ))}
             </List>
-
-            {/* {onDelete && (
-              <Button
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  width: "100%",
-                  background: "#00e5ff",
-                  color: "#0f2027",
-                  fontWeight: "bold",
-                  textShadow: "0 0 5px #00e5ff",
-                  "&:hover": { background: "#00bcd4", boxShadow: "0 0 20px #00e5ff" },
-                }}
-                onClick={onDelete}
-              >
-                Remove
-              </Button>
-            )} */}
           </>
         ) : (
           <Typography sx={{ color: "#757575" }}>No data found.</Typography>
         )}
       </Box>
+            
     </Drawer>
+
+
+    </div>
   );
 }
 

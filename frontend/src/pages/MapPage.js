@@ -7,8 +7,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 import { Drawer, Button, Typography, Box, CircularProgress, List, ListItem } from "@mui/material";
 
-import LeftDrawer from "../components/InfoDrawer";
+import InfoDrawer from "../components/InfoDrawer";
 import RightDrawer from "../components/RightDrawer";
+import UrlDrawer from '../components/UrlDrawer';
 
 import { getEntries, deleteEntry, getEntry } from '../services/api';
 
@@ -29,6 +30,8 @@ function MapPage() {
     lat: null,
     lng: null,
   });
+  const [openUrlDrawer, setOpenUrlDrawer] = useState(false);
+  const [iframeUrl, setIframeUrl] = useState("");
   
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
@@ -286,6 +289,11 @@ function MapPage() {
   
     map.current.addLayer(customLayer);
   };
+
+  const handleUrlDrawer = (data) => {
+    setOpenUrlDrawer(true);
+    setIframeUrl(data);
+  };
   
   return (
     <div>
@@ -300,27 +308,25 @@ function MapPage() {
         </Form>
       </Navbar> */}
       <div ref={mapContainer} style={{ width: '100%', height: '100vh' }} />
-      <LeftDrawer
+      <InfoDrawer
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         info={info}
         title="Pole Information"
         anchor="left"
+        onClick={handleUrlDrawer}
+      />      
+      <UrlDrawer
+        open={openUrlDrawer}
+        onClose={() => setOpenUrlDrawer(false)}
+        url={iframeUrl}
+        title=""
+        anchor="right"
         onDelete={() => {
           console.log("Delete marker here");
-        }}
-      />      
-      <RightDrawer
-        open={rightClickDrawer.open}
-        onClose={() => setRightClickDrawer({ open: false, lat: null, lng: null })}
-        lat={rightClickDrawer.lat}
-        lng={rightClickDrawer.lng}
-        onFlyHere={() => {
-          alert("Fly to Here!");
-          setRightClickDrawer({ open: false, lat: 0, lng: 0 });
-        }}
+        }
+      }
       />
-
     </div>
   );
 }
