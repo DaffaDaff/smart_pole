@@ -28,7 +28,7 @@ const isValidUrl = (string) => {
   }
 };
 
-function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left", onClick }) {
+function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left", onClickUrl }) {
   const [loading, setLoading] = useState(false);
   return (
     <div>
@@ -124,7 +124,7 @@ function InfoDrawer({ open, onClose, info, title = "Information", anchor = "left
                   ) : isValidUrl(value) ? (
                     // If value is a valid URL, render it as a hyperlink
                     <Typography sx={{ color: "#00e5ff", fontSize: "1rem", ml: 1 }}>
-                      <a target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} onClick={onClick(value)}>
+                      <a target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} onClick={() => (onClickUrl(value))}>
                         {value}
                       </a>
                     </Typography>

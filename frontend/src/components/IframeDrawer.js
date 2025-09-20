@@ -19,7 +19,7 @@ const formatLabel = (key) => {
     .replace(/^./, (str) => str.toUpperCase()); // capitalize first letter
 };
 
-function UrlDrawer({ open, onClose, url, title = "Information", anchor = "left", onDelete }) {
+function IframeDrawer({ open, onClose, url, title = "Information", anchor = "left" }) {
   const [loading, setLoading] = useState(false);
   return (
     <div>
@@ -72,7 +72,7 @@ function UrlDrawer({ open, onClose, url, title = "Information", anchor = "left",
             executionWhileOutOfViewport 
             executionWhileNotRendered 
             webShare 
-            src="https://sketchfab.com/models/bdc840d3d1ee45e88136122f69cd7eeb/embed"
+            src={url}
           />
         </div>
       ) : (
@@ -88,4 +88,4 @@ function UrlDrawer({ open, onClose, url, title = "Information", anchor = "left",
 }
 
 
-export default UrlDrawer;
+export default IframeDrawer;

@@ -8,8 +8,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { Drawer, Button, Typography, Box, CircularProgress, List, ListItem } from "@mui/material";
 
 import InfoDrawer from "../components/InfoDrawer";
-import RightDrawer from "../components/RightDrawer";
-import UrlDrawer from '../components/UrlDrawer';
+import UrlDrawer from '../components/IframeDrawer';
 
 import { getEntries, deleteEntry, getEntry } from '../services/api';
 
@@ -314,7 +313,7 @@ function MapPage() {
         info={info}
         title="Pole Information"
         anchor="left"
-        onClick={handleUrlDrawer}
+        onClickUrl={handleUrlDrawer}
       />      
       <UrlDrawer
         open={openUrlDrawer}
